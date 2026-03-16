@@ -34,12 +34,6 @@ public class PedidoController {
     @GetMapping
     public ResponseEntity<List<ListPedidosResponseDTO>> listarTodos() {
         List<Pedido> pedidos = pedidoRepository.buscarTodosComItens();
-
-        for (Pedido pedido : pedidos) {
-            System.out.println("PEDIDO ID: " + pedido.getId());
-            System.out.println("ITENS SIZE: " + pedido.getItensPedido().size());
-        }
-
         return ResponseEntity.ok(listPedidosMapper.toCollectionResponse(pedidos));
     }
 

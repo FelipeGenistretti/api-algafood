@@ -1,11 +1,13 @@
 package com.jpa_exemplo.jpa_exemplo.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.jpa_exemplo.jpa_exemplo.domain.exception.EntidadeNaoEncontradaException;
 import com.jpa_exemplo.jpa_exemplo.domain.exception.NegocioException;
 import com.jpa_exemplo.jpa_exemplo.domain.exception.RestauranteNaoEncontradoException;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Endereco;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Restaurante;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Usuario;
+import com.jpa_exemplo.jpa_exemplo.domain.model.view.RestauranteView;
 import com.jpa_exemplo.jpa_exemplo.domain.repository.RestauranteRepository;
 import com.jpa_exemplo.jpa_exemplo.domain.repository.UsuarioRepositoryInterface;
 import com.jpa_exemplo.jpa_exemplo.domain.service.CadastroRestauranteService;
@@ -25,11 +27,13 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -57,12 +61,40 @@ public class RestauranteController {
     @Autowired
     private ListUsuariosMapper listUsuariosMapper;
 
-
     @GetMapping
-    public ResponseEntity<List<ListRestaurantesResponseDTO>> todos() {
-        var restaurantes = restauranteRepository.listarComCozinha();
-        return ResponseEntity.ok(listRestauranteMapper.toCollectionResponse(restaurantes));
+    public MappingJacksonValue todos(@RequestParam(required = false) String projecao ) {
+        List<Restaurante> restaurantes = restauranteRepository.listarComCozinha();
+        List<ListRestaurantesResponseDTO> restauranteModel = listRestauranteMapper.toCollectionResponse(restaurantes);
+
+        MappingJacksonValue restaurantesWrapper = new MappingJacksonValue(restauranteModel);
+        restaurantesWrapper.setSerializationView(RestauranteView.Resumo.class);
+
+        if(Objects.equals(projecao, "apenas-nome")){
+            restaurantesWrapper.setSerializationView(RestauranteView.ApenasNome.class);
+        } else if (Objects.equals(projecao, "completo")) {
+            restaurantesWrapper.setSerializationView(null);
+        }
+
+        return restaurantesWrapper;
     }
+
+    // @GetMapping
+    // public ResponseEntity<List<ListRestaurantesResponseDTO>> todos() {
+    //     var restaurantes = restauranteRepository.listarComCozinha();
+    //     return ResponseEntity.ok(listRestauranteMapper.toCollectionResponse(restaurantes));
+    // }
+
+    // @JsonView(RestauranteView.Resumo.class)
+    // @GetMapping(params = "projecao=resumo")
+    // public ResponseEntity<List<ListRestaurantesResponseDTO>> listarResumido() {
+    //     return todos();
+    // }
+
+    // @JsonView(RestauranteView.ApenasNome.class)
+    // @GetMapping(params = "projecao=apenas-nome")
+    // public ResponseEntity<List<ListRestaurantesResponseDTO>> listarApenasNome() {
+    //     return todos();
+    // }
 
 
 
