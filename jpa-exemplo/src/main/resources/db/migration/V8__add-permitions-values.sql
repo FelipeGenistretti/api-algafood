@@ -1,0 +1,1 @@
+INSERT INTO grupo (id, nome) VALUES (1, 'GERENTE'), (2, 'VENDEDOR')

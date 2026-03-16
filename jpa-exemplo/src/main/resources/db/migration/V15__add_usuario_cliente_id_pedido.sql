@@ -1,0 +1,1 @@
+-- migration já aplicada manualmente

@@ -1,0 +1,2 @@
+ALTER TABLE pedido
+ADD COLUMN endereco_name VARCHAR(255)

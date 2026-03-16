@@ -1,0 +1,9 @@
+ALTER TABLE pedido
+ADD COLUMN status VARCHAR(20);
+
+UPDATE pedido
+SET status = 'CRIADO'
+WHERE status IS NULL;
+
+ALTER TABLE pedido
+MODIFY COLUMN status VARCHAR(20) NOT NULL;
