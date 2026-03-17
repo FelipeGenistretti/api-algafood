@@ -41,13 +41,22 @@ public class ProdutoController {
     private UpdateProdutoMapper updateProdutoMapper;
 
     @GetMapping("/{restauranteId}/produtos")
-    public ResponseEntity<List<ListProdutoResponseDTO>> listarTodos(@PathVariable Long restauranteId)
+    public ResponseEntity<List<ListProdutoResponseDTO>> listarTodos(@PathVariable Long restauranteId, @RequestParam(required = false) boolean incluirInativios)
     {
         Restaurante restaurante = cadastroService.buscarOuFalhar(restauranteId);
-        List<Produto> produtos = restaurante.listarProdutosRestaurante();
-        if(produtos.isEmpty()){
-            ResponseEntity.noContent().build();
+        List<Produto> produtos = null;
+
+        if(incluirInativios){
+            produtos = restaurante.listarProdutosRestaurante();
+        } else {
+            produtos = produtoRepository.findAtivosByRestaurante(restaurante);
         }
+
+        if(produtos.isEmpty()){
+           return ResponseEntity.noContent().build();
+        }
+
+
         return ResponseEntity.status(HttpStatus.OK).body(listProdutoMapper.toCollectionResponse(produtos));
     }
 

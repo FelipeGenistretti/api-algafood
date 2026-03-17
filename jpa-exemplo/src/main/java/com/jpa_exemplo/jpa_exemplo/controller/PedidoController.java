@@ -3,11 +3,13 @@ package com.jpa_exemplo.jpa_exemplo.controller;
 import com.jpa_exemplo.jpa_exemplo.domain.model.ItemPedido;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Pedido;
 import com.jpa_exemplo.jpa_exemplo.domain.repository.PedidoRepositoryInterface;
+import com.jpa_exemplo.jpa_exemplo.domain.repository.filter.PedidoFilter;
 import com.jpa_exemplo.jpa_exemplo.domain.service.CadastroPedidoService;
 import com.jpa_exemplo.jpa_exemplo.infrastructure.dtos.Pedido.CriarPedidoResquestDTO;
 import com.jpa_exemplo.jpa_exemplo.infrastructure.dtos.Pedido.ListPedidosResponseDTO;
 import com.jpa_exemplo.jpa_exemplo.infrastructure.mappers.pedido.CriarPedidoMapper;
 import com.jpa_exemplo.jpa_exemplo.infrastructure.mappers.pedido.ListPedidosMapper;
+import com.jpa_exemplo.jpa_exemplo.infrastructure.repository.Spec.PedidoSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +34,8 @@ public class PedidoController {
     private CriarPedidoMapper criarPedidoMapper;
 
     @GetMapping
-    public ResponseEntity<List<ListPedidosResponseDTO>> listarTodos() {
-        List<Pedido> pedidos = pedidoRepository.buscarTodosComItens();
-
-        for (Pedido pedido : pedidos) {
-            System.out.println("PEDIDO ID: " + pedido.getId());
-            System.out.println("ITENS SIZE: " + pedido.getItensPedido().size());
-        }
-
+    public ResponseEntity<List<ListPedidosResponseDTO>> listarTodos(PedidoFilter filtro) {
+        List<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
         return ResponseEntity.ok(listPedidosMapper.toCollectionResponse(pedidos));
     }
 

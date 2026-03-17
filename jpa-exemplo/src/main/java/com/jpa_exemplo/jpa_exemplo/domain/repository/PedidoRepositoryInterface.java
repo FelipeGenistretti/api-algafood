@@ -1,15 +1,17 @@
 package com.jpa_exemplo.jpa_exemplo.domain.repository;
 
 import com.jpa_exemplo.jpa_exemplo.domain.model.Pedido;
+import com.jpa_exemplo.jpa_exemplo.domain.model.Restaurante;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface PedidoRepositoryInterface extends JpaRepository<Pedido, Long> {
+public interface PedidoRepositoryInterface extends JpaRepository<Pedido, Long>, JpaSpecificationExecutor<Pedido> {
 
     @Override
     @EntityGraph(attributePaths = {
@@ -29,4 +31,5 @@ public interface PedidoRepositoryInterface extends JpaRepository<Pedido, Long> {
     left join fetch ip.produto
 """)
     List<Pedido> buscarTodosComItens();
+
 }
