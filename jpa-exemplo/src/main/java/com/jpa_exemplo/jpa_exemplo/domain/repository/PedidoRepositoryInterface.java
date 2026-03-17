@@ -2,6 +2,9 @@ package com.jpa_exemplo.jpa_exemplo.domain.repository;
 
 import com.jpa_exemplo.jpa_exemplo.domain.model.Pedido;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Restaurante;
+import com.jpa_exemplo.jpa_exemplo.domain.model.dto.VendaDiaria;
+import com.jpa_exemplo.jpa_exemplo.domain.repository.filter.VendaDiariaFilter;
+
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -31,5 +34,7 @@ public interface PedidoRepositoryInterface extends JpaRepository<Pedido, Long>, 
     left join fetch ip.produto
 """)
     List<Pedido> buscarTodosComItens();
+
+    
 
 }

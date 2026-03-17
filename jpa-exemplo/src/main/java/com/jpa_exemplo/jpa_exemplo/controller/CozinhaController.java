@@ -14,12 +14,17 @@ import com.jpa_exemplo.jpa_exemplo.infrastructure.mappers.cozinha.CriarCozinhaMa
 import com.jpa_exemplo.jpa_exemplo.infrastructure.mappers.cozinha.UpdateCozinhaMapper;
 import com.jpa_exemplo.jpa_exemplo.infrastructure.repository.Spec.CozinhaSpecs;
 import jakarta.validation.Valid;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +46,17 @@ public class CozinhaController {
     private UpdateCozinhaMapper updateCozinhaMapper;
 
     @GetMapping
-    public List<Cozinha> listar() {
-        return cozinhaRepository.findAll();
+    public ResponseEntity<Page<CriarCozinhaResponse>> listar(Pageable pageable) {
+
+        Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
+
+        List<CriarCozinhaResponse> cozinhasResponse =
+                criarCozinhaMapper.toCollectionResponse(cozinhasPage.getContent());
+
+        Page<CriarCozinhaResponse> cozinhasResponsePage =
+                new PageImpl<>(cozinhasResponse, pageable, cozinhasPage.getTotalElements());
+
+        return ResponseEntity.ok(cozinhasResponsePage);
     }
 
     @GetMapping("/{cozinhaId}")

@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -34,8 +37,10 @@ public class PedidoController {
     private CriarPedidoMapper criarPedidoMapper;
 
     @GetMapping
-    public ResponseEntity<List<ListPedidosResponseDTO>> listarTodos(PedidoFilter filtro) {
-        List<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
+    public ResponseEntity<Page<List<ListPedidosResponseDTO>>> listarTodos(PedidoFilter filtro, Pageable pageable ) {
+        Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+        List<ListPedidosResponseDTO> pedidosResponse = listPedidosMapper.toCollectionResponse(pedidosPage.getContent());
+        Page<ListPedidosResponseDTO> pedidosResponsePage = new P
         return ResponseEntity.ok(listPedidosMapper.toCollectionResponse(pedidos));
     }
 
