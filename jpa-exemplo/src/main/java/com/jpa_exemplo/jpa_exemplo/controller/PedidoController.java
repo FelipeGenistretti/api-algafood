@@ -1,5 +1,7 @@
 package com.jpa_exemplo.jpa_exemplo.controller;
 
+import com.google.common.collect.ImmutableMap;
+import com.jpa_exemplo.jpa_exemplo.core.data.PageableTranslator;
 import com.jpa_exemplo.jpa_exemplo.domain.model.ItemPedido;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Pedido;
 import com.jpa_exemplo.jpa_exemplo.domain.repository.PedidoRepositoryInterface;
@@ -37,11 +39,18 @@ public class PedidoController {
     private CriarPedidoMapper criarPedidoMapper;
 
     @GetMapping
-    public ResponseEntity<Page<List<ListPedidosResponseDTO>>> listarTodos(PedidoFilter filtro, Pageable pageable ) {
+    public ResponseEntity<Page<ListPedidosResponseDTO>> listarTodos(PedidoFilter filtro, Pageable pageable ) {
+        pageable = traduzirPageable(pageable);
+
         Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+
         List<ListPedidosResponseDTO> pedidosResponse = listPedidosMapper.toCollectionResponse(pedidosPage.getContent());
-        Page<ListPedidosResponseDTO> pedidosResponsePage = new P
-        return ResponseEntity.ok(listPedidosMapper.toCollectionResponse(pedidos));
+
+        Page<ListPedidosResponseDTO> pedidosResponsePage = new PageImpl<>(
+            pedidosResponse, pageable, pedidosPage.getTotalElements()
+        );
+
+        return ResponseEntity.ok(pedidosResponsePage);
     }
 
     @GetMapping("/{pedidoId}")
@@ -56,5 +65,17 @@ public class PedidoController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(listPedidosMapper.toResponse(pedidoCriado));
+    }
+
+    private Pageable traduzirPageable(Pageable apiPageable) {
+        var mapeamento = ImmutableMap.of(
+                "codigo", "codigo",
+                "restaurante.nome", "restaurante.nome",
+                "nomeCliente", "cliente.nome",
+                "valorTotal", "valorTotal"
+            );
+
+        return PageableTranslator.translate(apiPageable, mapeamento);
+        
     }
 }

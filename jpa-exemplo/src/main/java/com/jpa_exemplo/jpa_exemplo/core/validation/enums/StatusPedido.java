@@ -1,3 +1,4 @@
+
 package com.jpa_exemplo.jpa_exemplo.core.validation.enums;
 
 import java.util.Arrays;

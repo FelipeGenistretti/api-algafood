@@ -1,0 +1,70 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGBUS (0x7) at pc=0x0000753ab13425a7, pid=2773, tid=3124
+#
+# JRE version: OpenJDK Runtime Environment Temurin-21.0.10+7 (21.0.10+7) (build 21.0.10+7-LTS)
+# Java VM: OpenJDK 64-Bit Server VM Temurin-21.0.10+7 (21.0.10+7-LTS, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, parallel gc, linux-amd64)
+# Problematic frame:
+# j  org.eclipse.jdt.internal.core.search.indexing.IndexRequest.<init>(Lorg/eclipse/core/runtime/IPath;Lorg/eclipse/jdt/internal/core/search/indexing/IndexManager;)V+0
+#
+# No core dump will be written. 
+#
+# If you would like to submit a bug report, please visit:
+#   https://github.com/adoptium/adoptium-support/issues
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: 
+[error occurred during error reporting (printing VM option summary), id 0x7, SIGBUS (0x7) at pc=0x0000753ac0a48aad]
+Host: Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz, 8 cores, 3G, Ubuntu 24.04.1 LTS
+
+[error occurred during error reporting (printing date and time), id 0x7, SIGBUS (0x7) at pc=0x0000753ac1c487e5]
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000753abc5361f0):  JavaThread "WorkspaceEventsHandler"        [_thread_in_Java, id=3124, stack(0x0000753a5c739000,0x0000753a5c839000) (1024K)]
+
+Stack: [0x0000753a5c739000,0x0000753a5c839000],  sp=0x0000753a5c835970,  free space=1010k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+j  org.eclipse.jdt.internal.core.search.indexing.IndexRequest.<init>(Lorg/eclipse/core/runtime/IPath;Lorg/eclipse/jdt/internal/core/search/indexing/IndexManager;)V+0
+[error occurred during error reporting (printing native stack (with source info)), id 0x7, SIGBUS (0x7) at pc=0x0000753ac1ed6010]
+
+Retrying call stack printing without source information...
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+j  org.eclipse.jdt.internal.core.search.indexing.IndexRequest.<init>(Lorg/eclipse/core/runtime/IPath;Lorg/eclipse/jdt/internal/core/search/indexing/IndexManager;)V+0
+j  org.eclipse.jdt.internal.core.search.indexing.IndexManager$2.<init>(Lorg/eclipse/jdt/internal/core/search/indexing/IndexManager;Lorg/eclipse/core/runtime/IPath;Lorg/eclipse/jdt/internal/core/search/indexing/IndexManager;Lorg/eclipse/jdt/internal/core/index/IndexLocation;Lorg/eclipse/jdt/core/search/SearchDocument;Lorg/eclipse/jdt/core/search/SearchParticipant;)V+26
+j  org.eclipse.jdt.internal.core.search.indexing.IndexManager.scheduleDocumentIndexing(Lorg/eclipse/jdt/core/search/SearchDocument;Lorg/eclipse/core/runtime/IPath;Lorg/eclipse/jdt/internal/core/index/IndexLocation;Lorg/eclipse/jdt/core/search/SearchParticipant;)V+12
+j  org.eclipse.jdt.internal.core.search.indexing.IndexManager.addSource(Lorg/eclipse/core/resources/IFile;Lorg/eclipse/core/runtime/IPath;Lorg/eclipse/jdt/internal/compiler/SourceElementParser;)V+51
+j  org.eclipse.jdt.internal.core.DeltaProcessor.updateIndex(Lorg/eclipse/jdt/internal/core/Openable;Lorg/eclipse/core/resources/IResourceDelta;)V+875
+J 25359 c1 org.eclipse.jdt.internal.core.DeltaProcessor.updateCurrentDeltaAndIndex(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;)Z (951 bytes) @ 0x0000753aaa4fa30c [0x0000753aaa4f5be0+0x000000000000472c]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19cccc [0x0000753aab19c860+0x000000000000046c]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+J 23980 c1 org.eclipse.jdt.internal.core.DeltaProcessor.traverseDelta(Lorg/eclipse/core/resources/IResourceDelta;ILorg/eclipse/jdt/internal/core/DeltaProcessor$RootInfo;Lorg/eclipse/jdt/internal/core/DeltaProcessor$OutputsInfo;)V (650 bytes) @ 0x0000753aab19d83c [0x0000753aab19c860+0x0000000000000fdc]
+j  org.eclipse.jdt.internal.core.DeltaProcessor.processResourceDelta(Lorg/eclipse/core/resources/IResourceDelta;)Lorg/eclipse/jdt/core/IJavaElementDelta;+213
+J 30002 c1 org.eclipse.jdt.internal.core.DeltaProcessor.resourceChanged(Lorg/eclipse/core/resources/IResourceChangeEvent;)V (1067 bytes) @ 0x0000753aad14491c [0x0000753aad141280+0x000000000000369c]
+J 30001 c1 org.eclipse.jdt.internal.core.DeltaProcessingState.resourceChanged(Lorg/eclipse/core/resources/IResourceChangeEvent;)V (123 bytes) @ 0x0000753aad13f9bc [0x0000753aad13ef60+0x0000000000000a5c]
+J 23786 c1 org.eclipse.core.internal.events.NotificationManager$1.run()V (45 bytes) @ 0x0000753aaa55cf9c [0x0000753aaa55cca0+0x00000000000002fc]
+J 26681 c1 org.eclipse.core.internal.events.NotificationManager.notify([Lorg/eclipse/core/internal/events/ResourceChangeListenerList$ListenerEntry;Lorg/eclipse/core/internal/events/ResourceChangeEvent;Z)V (144 bytes) @ 0x0000753aabd983fc [0x0000753aabd97dc0+0x000000000000063c]
+J 26837 c1 org.eclipse.core.internal.events.NotificationManager.broadcastChanges(Lorg/eclipse/core/internal/watson/ElementTree;Lorg/eclipse/core/internal/events/ResourceChangeEvent;Z)V (153 bytes) @ 0x0000753aaad0a3f4 [0x0000753aaad09ac0+0x0000000000000934]
+J 31207 c1 org.eclipse.core.internal.resources.Workspace.broadcastPostChange()V (26 bytes) @ 0x0000753aaa139a64 [0x0000753aaa139860+0x0000000000000204]
+J 23060 c1 org.eclipse.core.internal.resources.Workspace.endOperation(Lorg/eclipse/core/runtime/jobs/ISchedulingRule;Z)V (245 bytes) @ 0x0000753aaad46294 [0x0000753aaad45a00+0x0000000000000894]
+J 29429 c1 org.eclipse.core.internal.resources.Resource.refreshLocal(ILorg/eclipse/core/runtime/IProgressMonitor;)V (253 bytes) @ 0x0000753aaa481594 [0x0000753aaa47f700+0x0000000000001e94]
+J 23655 c1 org.eclipse.core.internal.resources.File.refreshLocal(ILorg/eclipse/core/runtime/IProgressMonitor;)V (18 bytes) @ 0x0000753aab0e4bbc [0x0000753aab0e49e0+0x00000000000001dc]
+j  org.eclipse.jdt.ls.core.internal.handlers.WorkspaceEventsHandler.handleFileEvent(Lorg/eclipse/lsp4j/FileEvent;)V+187
+j  org.eclipse.jdt.ls.core.internal.handlers.WorkspaceEventsHandler.lambda$0()V+32
+j  org.eclipse.jdt.ls.core.internal.handlers.WorkspaceEventsHandler$$Lambda+0x0000753a60407540.run()V+4
+j  java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V+5 java.base@21.0.10
+j  java.lang.Thread.run()V+19 java.base@21.0.10
+v  ~StubRoutines::call_stub 0x0000753ab1337cc6
+
+[error occurred during error reporting (retry printing native stack (no source info)), id 0x7, SIGBUS (0x7) at pc=0x0000753ac1ed6010]
