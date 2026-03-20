@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-03-16T20:32:58-0300",
+    date = "2026-03-19T22:41:43-0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 25 (Oracle Corporation)"
 )
 @Component
@@ -33,29 +33,29 @@ public class ListRestauranteMapperImpl implements ListRestauranteMapper {
 
         Long id = null;
         String nome = null;
+        BigDecimal taxaFrete = null;
+        ListCozinhaRestauranteResponseDTO cozinha = null;
         OffsetDateTime dataCadastro = null;
         OffsetDateTime dataAtualizacao = null;
-        BigDecimal taxaFrete = null;
         boolean ativo = false;
         boolean aberto = false;
-        ListCozinhaRestauranteResponseDTO cozinha = null;
         ListEnderecoRestauranteResponseDTO endereco = null;
 
         id = restaurante.getId();
         nome = restaurante.getNome();
+        taxaFrete = restaurante.getTaxaFrete();
+        cozinha = cozinhaToListCozinhaRestauranteResponseDTO( restaurante.getCozinha() );
         dataCadastro = restaurante.getDataCadastro();
         dataAtualizacao = restaurante.getDataAtualizacao();
-        taxaFrete = restaurante.getTaxaFrete();
         if ( restaurante.getAtivo() != null ) {
             ativo = restaurante.getAtivo();
         }
         if ( restaurante.getAberto() != null ) {
             aberto = restaurante.getAberto();
         }
-        cozinha = cozinhaToListCozinhaRestauranteResponseDTO( restaurante.getCozinha() );
         endereco = enderecoToListEnderecoRestauranteResponseDTO( restaurante.getEndereco() );
 
-        ListRestaurantesResponseDTO listRestaurantesResponseDTO = new ListRestaurantesResponseDTO( id, nome, dataCadastro, dataAtualizacao, taxaFrete, ativo, aberto, cozinha, endereco );
+        ListRestaurantesResponseDTO listRestaurantesResponseDTO = new ListRestaurantesResponseDTO( id, nome, taxaFrete, cozinha, dataCadastro, dataAtualizacao, ativo, aberto, endereco );
 
         return listRestaurantesResponseDTO;
     }

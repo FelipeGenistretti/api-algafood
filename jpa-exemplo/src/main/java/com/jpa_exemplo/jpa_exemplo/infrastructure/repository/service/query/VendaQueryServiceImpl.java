@@ -1,4 +1,4 @@
-package com.jpa_exemplo.jpa_exemplo.infrastructure.repository.service;
+package com.jpa_exemplo.jpa_exemplo.infrastructure.repository.service.query;
 
 import java.sql.Date;
 import java.util.ArrayList;
