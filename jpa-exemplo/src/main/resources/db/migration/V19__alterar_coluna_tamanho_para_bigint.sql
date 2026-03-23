@@ -1,0 +1,2 @@
+ALTER TABLE foto_produto
+MODIFY COLUMN tamanho BIGINT NOT NULL;
