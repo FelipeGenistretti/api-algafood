@@ -1,7 +1,8 @@
 package com.jpa_exemplo.jpa_exemplo.domain.service;
 
+import com.jpa_exemplo.jpa_exemplo.domain.exception.FotoProdutoNaoEncontradaException;
 import com.jpa_exemplo.jpa_exemplo.domain.model.FotoProduto;
-import com.jpa_exemplo.jpa_exemplo.domain.repository.ProdutoRepositoryInterface;
+import com.jpa_exemplo.jpa_exemplo.domain.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public class CatalogoFotoProdutoService {
 
     @Autowired
-    private ProdutoRepositoryInterface produtoRepository;
+    private ProdutoRepository produtoRepository;
 
     @Autowired
     private FotoStorageService fotoStorageService;
@@ -22,16 +23,28 @@ public class CatalogoFotoProdutoService {
     public FotoProduto salvar(FotoProduto foto, InputStream dadosArquivo) {
         Long restauranteId = foto.getRestauranteId();
         Long produtoId = foto.getProduto().getId();
+        String nomeNovoArquivo = fotoStorageService.gerarNomeArquivo(foto.getNomeArquivo());
+        String nomeArquivoExistente = null;
 
         Optional<FotoProduto> fotoExistente = produtoRepository.findFotoById(restauranteId, produtoId);
 
         if(fotoExistente.isPresent()) {
+            nomeArquivoExistente = fotoExistente.get().getNomeArquivo();
             produtoRepository.delete(fotoExistente.get());
         }
 
+        foto.setNomeArquivo(nomeNovoArquivo);
+        foto = produtoRepository.save(foto);
+        produtoRepository.flush();
+
         FotoStorageService.NovaFoto novaFoto = FotoStorageService.NovaFoto.builder().nomeArquivo(foto.getNomeArquivo()).inputStream(dadosArquivo).build();
 
-        fotoStorageService.armazenar(novaFoto);
-        return produtoRepository.save(foto);
+        fotoStorageService.substituir(nomeArquivoExistente, novaFoto);
+        return foto;
+    }
+
+    public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
     }
 }

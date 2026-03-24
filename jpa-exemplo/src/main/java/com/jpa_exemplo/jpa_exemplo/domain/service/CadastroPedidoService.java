@@ -29,7 +29,7 @@ public class CadastroPedidoService {
     private RestauranteRepository restauranteRepository;
 
     @Autowired
-    private ProdutoRepositoryInterface produtoRepository;
+    private ProdutoRepository produtoRepository;
 
     @Autowired
     private FormaDePagamentoInterface formaPagamentoRepository;

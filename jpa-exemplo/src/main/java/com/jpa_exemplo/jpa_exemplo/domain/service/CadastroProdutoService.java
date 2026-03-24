@@ -4,7 +4,7 @@ import com.jpa_exemplo.jpa_exemplo.domain.exception.NegocioException;
 import com.jpa_exemplo.jpa_exemplo.domain.exception.ProdutoNaoEncontradoException;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Produto;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Restaurante;
-import com.jpa_exemplo.jpa_exemplo.domain.repository.ProdutoRepositoryInterface;
+import com.jpa_exemplo.jpa_exemplo.domain.repository.ProdutoRepository;
 import com.jpa_exemplo.jpa_exemplo.domain.repository.RestauranteRepository;
 import com.jpa_exemplo.jpa_exemplo.infrastructure.dtos.Produto.UpdateProdutoRequestDTO;
 import com.jpa_exemplo.jpa_exemplo.infrastructure.mappers.produto.UpdateProdutoMapper;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class CadastroProdutoService {
 
     @Autowired
-    private ProdutoRepositoryInterface produtoRepository;
+    private ProdutoRepository produtoRepository;
 
     @Autowired
     private CadastroRestauranteService restauranteService;

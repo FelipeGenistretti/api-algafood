@@ -3,7 +3,7 @@ package com.jpa_exemplo.jpa_exemplo.controller;
 import com.jpa_exemplo.jpa_exemplo.domain.exception.ProdutoNaoEncontradoException;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Produto;
 import com.jpa_exemplo.jpa_exemplo.domain.model.Restaurante;
-import com.jpa_exemplo.jpa_exemplo.domain.repository.ProdutoRepositoryInterface;
+import com.jpa_exemplo.jpa_exemplo.domain.repository.ProdutoRepository;
 import com.jpa_exemplo.jpa_exemplo.domain.service.CadastroProdutoService;
 import com.jpa_exemplo.jpa_exemplo.domain.service.CadastroRestauranteService;
 import com.jpa_exemplo.jpa_exemplo.infrastructure.dtos.Produto.*;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class ProdutoController {
 
     @Autowired
-    private ProdutoRepositoryInterface produtoRepository;
+    private ProdutoRepository produtoRepository;
 
     @Autowired
     private ListProdutoMapper listProdutoMapper;
