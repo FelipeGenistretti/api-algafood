@@ -2,7 +2,7 @@ package com.jpa_exemplo.jpa_exemplo.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.util.List;
 
 import com.jpa_exemplo.jpa_exemplo.domain.exception.EntidadeNaoEncontradaException;
 import com.jpa_exemplo.jpa_exemplo.domain.model.FotoProduto;
@@ -14,8 +14,10 @@ import com.jpa_exemplo.jpa_exemplo.infrastructure.dtos.FotoProduto.FotoProdutoRe
 import com.jpa_exemplo.jpa_exemplo.infrastructure.mappers.fotoProduto.FotoProdutoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,17 +71,36 @@ public class RestauranteProdutoFotoController {
     }
 
     @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId)
+    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @RequestHeader(name="accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException
     {
         try {
             FotoProduto fotoProduto = catalogoFotoProdutoService.buscarOuFalhar(restauranteId, produtoId);
+            MediaType mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
+            List<MediaType> mediaTypeAceitas = MediaType.parseMediaTypes(acceptHeader);
+            verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypeAceitas);
+
             InputStream inputStream = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(new InputStreamResource(inputStream));
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
+    }
 
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarFotoProduto(@PathVariable Long restauranteId, @PathVariable Long produtoId)
+    {
+        catalogoFotoProdutoService.excluir(restauranteId, produtoId);
 
+    }
+
+    private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, List<MediaType> mediaTypeAceitas) throws HttpMediaTypeNotAcceptableException
+    {
+        boolean compativel = mediaTypeAceitas.stream().anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaTypeFoto));
+
+        if(!compativel) {
+            throw new HttpMediaTypeNotAcceptableException(mediaTypeAceitas);
+        }
     }
 
 }
