@@ -25,6 +25,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -36,6 +37,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+@CrossOrigin(maxAge = 10)
 @RestController
 @RequestMapping(value="/restaurantes")
 public class RestauranteController {
@@ -78,11 +80,27 @@ public class RestauranteController {
         return restaurantesWrapper;
     }
 
-    // @GetMapping
-    // public ResponseEntity<List<ListRestaurantesResponseDTO>> todos() {
-    //     var restaurantes = restauranteRepository.listarComCozinha();
-    //     return ResponseEntity.ok(listRestauranteMapper.toCollectionResponse(restaurantes));
-    // }
+
+    @GetMapping("/cozinhas")
+    public ResponseEntity<List<ListRestaurantesResponseDTO>> todos() {
+        var restaurantes = restauranteRepository.listarComCozinha();
+        return ResponseEntity.ok(listRestauranteMapper.toCollectionResponse(restaurantes));
+    }
+
+// @CrossOrigin(origins = "http://localhost:8000")
+// @GetMapping("/cozinhas")
+// public ResponseEntity<?> todos() {
+//     System.out.println("Recebendo request /cozinhas"); // LOG
+//     try {
+//         var restaurantes = restauranteRepository.listarComCozinha();
+//         var dto = listRestauranteMapper.toCollectionResponse(restaurantes);
+//         System.out.println("DTO gerado: " + dto.size()); // LOG
+//         return ResponseEntity.ok(dto);
+//     } catch (Exception e) {
+//         e.printStackTrace();
+//         return ResponseEntity.status(500).body("Erro interno: " + e.getMessage());
+//     }
+// }
 
     // @JsonView(RestauranteView.Resumo.class)
     // @GetMapping(params = "projecao=resumo")
