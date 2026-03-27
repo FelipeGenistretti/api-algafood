@@ -8,12 +8,14 @@ import com.jpa_exemplo.jpa_exemplo.infrastructure.dtos.FormaDePagamento.Response
 import com.jpa_exemplo.jpa_exemplo.infrastructure.mappers.formaPagamento.FormaPagamentoMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/forma-pagamento")
@@ -36,13 +38,16 @@ public class FormaPagamentoController {
         Set<FormaDePagamentoResponseDTO> response =
                 formaPagamentoMapper.toColletionResponse(formasPagamentos);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok()
+                            .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                            .body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FormaDePagamentoResponseDTO> formaPagamentoPorId(@PathVariable Long id) {
         FormaDePagamento formaDePagamento = formaPagamentoService.buscarOuFalhar(id);
-        return ResponseEntity.ok(formaPagamentoMapper.toResponse(formaDePagamento));
+        FormaDePagamentoResponseDTO response = formaPagamentoMapper.toResponse(formaDePagamento);
+        return ResponseEntity.ok().cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate()).body(response);
     }
 
     @PostMapping
