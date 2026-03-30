@@ -5,9 +5,12 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -20,6 +23,9 @@ public class FormaDePagamento {
     private Long id;
 
     String descricao;
+
+    @UpdateTimestamp
+    private OffsetDateTime dataAtualizacao;
 
     @ManyToMany(mappedBy = "formasPagamento")
     private List<Restaurante> restaurantes;

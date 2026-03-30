@@ -47,7 +47,7 @@ public class FormaPagamentoController {
     public ResponseEntity<FormaDePagamentoResponseDTO> formaPagamentoPorId(@PathVariable Long id) {
         FormaDePagamento formaDePagamento = formaPagamentoService.buscarOuFalhar(id);
         FormaDePagamentoResponseDTO response = formaPagamentoMapper.toResponse(formaDePagamento);
-        return ResponseEntity.ok().cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate()).body(response);
+        return ResponseEntity.ok().cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic()).body(response);
     }
 
     @PostMapping
